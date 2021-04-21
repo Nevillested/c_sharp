@@ -41,66 +41,45 @@ namespace C_sharp
         }
         static void Main(string[] args)
         {
+            Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
+            string[] options = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
+            string[] options2 = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
+            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже. \r\nВыбери словарь (eng/rus):");
+            string keyy = Console.ReadLine();
+            switch (keyy)
+            {
+                case "rus":
+                    dict.Add(keyy /*ключ*/, options2); //добавляем элементы из массива в словарь
+                    break;
+                case "eng":
+                    dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
+                    break;
+                default:
+                    Console.WriteLine("eng or rus!");
+                    break;
 
-            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже. Выбери словарь (eng/rus):");
-            var keyy = Console.ReadLine();
-            int i = 1;
+            }
             do
             {
-                if (keyy == "eng")
+                Random rand = new Random(); //метод рандома
+                int random = rand.Next(0, options.Length); //метод рандома выбирает рандомный индекс наших текстов
+                foreach (string key in dict.Keys) // перебираем все ключи
+                    Console.WriteLine(dict[key][random]); // получаем значение
+                DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
+                string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
+                TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
+                if (String.Compare(options[random], stroka) == 0) //если ошибок нет, то...
                 {
-                    Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
-                    string[] options = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
-                    dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
-                    Random rand = new Random(); //метод рандома
-                    int random = rand.Next(0, options.Length); //метод рандома выбирает рандомный индекс наших текстов
-                    foreach (string key in dict.Keys) // перебираем все ключи
-                        Console.WriteLine(dict[key][random]); // получаем значение
-                    DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
-                    string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
-                    TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
-                    if (String.Compare(options[random], stroka) == 0) //если ошибок нет, то...
-                    {
-                        Console.WriteLine("Отлично, твоё время:" + (span) + "." + "Ошибок нет\r\n");
-                    }
-                    else //если ошибки есть, то...
-                    {
-                        var s1 = options[random];
-                        var s2 = stroka;
-                        Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(s1, s2) + ". Попробуйте снова\r\n");
-                    }
-
+                    Console.WriteLine("Отлично, твоё время:" + (span) + "." + "Ошибок нет\r\n");
                 }
-                else if (keyy == "rus")
+                else //если ошибки есть, то...
                 {
-                    Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
-                    string[] options = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
-                    dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
-                    Random rand = new Random(); //метод рандома
-                    int random = rand.Next(0, options.Length); //метод рандома выбирает рандомный индекс наших текстов
-                    foreach (string key in dict.Keys) // перебираем все ключи
-                        Console.WriteLine(dict[key][random]); // получаем значение
-                    DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
-                    string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
-                    TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
-                    if (String.Compare(options[random], stroka) == 0) //если ошибок нет, то...
-                    {
-                        Console.WriteLine("Отлично, твоё время:" + (span) + "." + "Ошибок нет\r\n");
-                    }
-                    else //если ошибки есть, то...
-                    {
-                        var s1 = options[random];
-                        var s2 = stroka;
-                        Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(s1, s2) + ". Попробуйте снова\r\n");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("\r\nТолько 'eng' или 'rus'"!); // если введено не "eng" и не "rus"
+                    var s1 = options[random];
+                    var s2 = stroka;
+                    Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(s1, s2) + ". Попробуйте снова\r\n");
                 }
             }
-            while (i > 0);
-
+            while (true);
 
         }
     }
