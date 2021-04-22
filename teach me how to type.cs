@@ -41,106 +41,73 @@ namespace C_sharp
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже");
-            var i = 1; //счетчик бесконечного цикла while (i>0)
+            Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
+            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже. \r\nВыбери словарь (eng/rus):");
             var x = 1; //счетчик попыток
             var max = 0.0; //лучший результат
             var min = 0.0; //худший результат
             var avg = 0.0; //средний результат
-            do
+            string keyy = "0";
+            string[] options = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
+            string[] options2 = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
+            int k = 0;
+            while (k < 1)
             {
-                Console.WriteLine("\r\nВыбери словарь (eng/rus):");
-                string keyy = Console.ReadLine();
-                if (keyy == "rus" | keyy == "eng")
+                keyy = Console.ReadLine();
+                if (keyy == "rus")
                 {
-                    if (keyy == "eng")
-                    {
-                        Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
-                        string[] options = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
-                        dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
-                        Random rand = new Random(); //метод рандома
-                        int random = rand.Next(0, options.Length); //метод рандома выбирает рандомный индекс наших текстов
-                        foreach (string key in dict.Keys) // перебираем все ключи
-                            Console.WriteLine(dict[key][random]); // печатаем выбранную строку
-                        DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
-                        string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
-                        TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
-                        double dime = (DateTime.Now - startedAt).TotalMinutes; //переводит в дабл минуты
-                        if (String.Compare(options[random], stroka) == 0) //если ошибок нет, то...
-                        {
-                            double V = (options[random].Length / dime);
-                            if ((min == 0.0) || (max == 0.0) || (avg == 0.0))
-                            {
-                                min = max = avg = V;
-                            }
-                            else
-                            {
-                                if (min > V)
-                                {
-                                    min = V;
-                                }
-                                if (max < V)
-                                {
-                                    max = V;
-                                }
-                                avg = (avg + V) / x;
-                            }
-                            Console.WriteLine("\r\nПопытка:" + (x) + "\r\nОтлично, твоё время: " + (span.Seconds) + " секунд." + "\r\nКоличество символов: {0}", options[random].Length + "\r\nТвоя корость: " + Math.Round(V, 2) + " зн/мин\r\nСамая маленькая скорость: " + Math.Round(min, 2) + " зн/мин" + "\r\nСамая большая скорость: " + Math.Round(max, 2) + " зн/мин" + "\r\nСредняя скорость: " + Math.Round(avg, 2) + " зн/мин");
-                            x++; //инкрементное прибавление к счетчику попыток каждый круг
-                        }
-                        else //если ошибки есть, то...
-                        {
-                            Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(options[random], stroka) + ". Попробуйте снова\r\n");
-                        }
-                    }
-                    if (keyy == "rus")
-                    {
-                        Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
-                        string[] options = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
-                        dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
-                        Random rand = new Random(); //метод рандома
-                        int random = rand.Next(0, options.Length); //метод рандома выбирает рандомный индекс наших текстов
-                        foreach (string key in dict.Keys) // перебираем все ключи
-                            Console.WriteLine(dict[key][random]); // печатаем выбранную строку
-                        DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
-                        string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
-                        TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
-                        double dime = (DateTime.Now - startedAt).TotalMinutes; //переводит в дабл минуты
-                        if (String.Compare(options[random], stroka) == 0) //если ошибок нет, то...
-                        {
-                            double V = (options[random].Length / dime);
-                            if ((min == 0.0) || (max == 0.0) || (avg == 0.0))
-                            {
-                                min = max = avg = V;
-                            }
-                            else
-                            {
-                                if (min > V)
-                                {
-                                    min = V;
-                                }
-                                if (max < V)
-                                {
-                                    max = V;
-                                }
-                                avg = (avg + V) / x;
-                            }
-                            Console.WriteLine("\r\nПопытка:" + (x) + "\r\nОтлично, твоё время: " + (span.Seconds) + " секунд." + "\r\nКоличество символов: {0}", options[random].Length + "\r\nТвоя корость: " + Math.Round(V, 2) + " зн/мин\r\nСамая маленькая скорость: " + Math.Round(min, 2) + " зн/мин" + "\r\nСамая большая скорость: " + Math.Round(max, 2) + " зн/мин" + "\r\nСредняя скорость: " + Math.Round(avg, 2) + " зн/мин");
-                            x++; //инкрементное прибавление к счетчику попыток каждый круг
-                        }
-                        else //если ошибки есть, то...
-                        {
-                            Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(options[random], stroka) + ". Попробуйте снова\r\n");
-                        }
-                    }
+                    dict.Add(keyy /*ключ*/, options); //добавляем элементы из массива в словарь
+                    k = 2;
+                }
+                else if (keyy == "eng")
+                {
+                    dict.Add(keyy /*ключ*/, options2); //добавляем элементы из массива в словарь
+                    k = 2;
                 }
                 else
                 {
-                    Console.WriteLine("\r\nТолько 'eng' или 'rus'"!); // если введено не "eng" и не "rus"
+                    Console.WriteLine("Введите словарь: либо eng либо rus!"); // введите правильный ключ!
                 }
             }
-            while (i > 0);
-
+            do
+            {
+                Random rand = new Random(); //метод рандома
+                int random = rand.Next(0, dict[keyy].Length); //метод рандома выбирает рандомный индекс наших текстов
+                Console.WriteLine(dict[keyy][random]); // получаем значение
+                DateTime startedAt = DateTime.Now;  //старт времени нашей писанины
+                string stroka = Console.ReadLine(); // предложение ввести текст и присваивание тексту переменную stroka
+                TimeSpan span = DateTime.Now - startedAt; //вычисляет время, за которое напечатан текст
+                double dime = (DateTime.Now - startedAt).TotalMinutes; //переводит в дабл минуты
+                if (String.Compare(dict[keyy][random], stroka) == 0) //если ошибок нет, то...
+                {
+                    double V = (options[random].Length / dime);
+                    if ((min == 0.0) || (max == 0.0) || (avg == 0.0))
+                    {
+                        min = max = avg = V;
+                    }
+                    else
+                    {
+                        if (min > V)
+                        {
+                            min = V;
+                        }
+                        if (max < V)
+                        {
+                            max = V;
+                        }
+                        avg = (avg + V) / x;
+                    }
+                    Console.WriteLine("\r\nПопытка:" + (x) + "\r\nОтлично, твоё время: " + (span.Seconds) + " секунд." + "\r\nКоличество символов: {0}", options[random].Length + "\r\nТвоя корость: " + Math.Round(V, 2) + " зн/мин\r\nСамая маленькая скорость: " + Math.Round(min, 2) + " зн/мин" + "\r\nСамая большая скорость: " + Math.Round(max, 2) + " зн/мин" + "\r\nСредняя скорость: " + Math.Round(avg, 2) + " зн/мин");
+                    x++; //инкрементное прибавление к счетчику попыток каждый круг
+                }
+                else //если ошибки есть, то...
+                {
+                    var s1 = dict[keyy][random];
+                    var s2 = stroka;
+                    Console.WriteLine("Количество ошибок: {0}", LevenshteinDistance(s1, s2) + ". Попробуйте снова\r\n");
+                }
+            }
+            while (true);
 
         }
     }
