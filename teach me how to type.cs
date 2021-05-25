@@ -23,7 +23,7 @@ namespace C_sharp
                 Console.WriteLine("Отлично, твоё время:");
                 Console.WriteLine(span);
             }
-            while (i > 0);
+            while (true);
         }
     }
 }
