@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace C_sharp
 {
-    class Program
+
+class Program
     {
+        public static Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
+        public static string keyy = "0";
+        public static string[] options = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
+        public static string[] options2 = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
         static int Minimum(int a, int b, int c) => (a = a < b ? a : b) < c ? a : c; //получение минимального из трех расстояния Левенштейна
         static int LevenshteinDistance(string firstWord, string secondWord) //Итеративная реализация Левенштейна
         {
@@ -39,15 +44,10 @@ namespace C_sharp
             }
             return matrixD[n - 1, m - 1];
         }
-        static void Main(string[] args)
+        public static void vibor()
         {
-            Dictionary<string, string[]> dict = new Dictionary<string, string[]>(); //создаем словарь
-            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже. \r\nВыбери словарь (eng/rus):");
-            string keyy = "0";
-            string[] options = new[] { "Шла Маша по Шоссе и сосала сушку.", "Бык тупогуб, тупогубенький бычок, у быка губа тупа.", "Во дворе трава, на траве дрова", "От топота копыт пыль по полю летит.", "Корабли лавировали, лавировали, да не вылавировали.", "Выдра в ведро от выдры нырнула. Выдра в ведре с водой утонула." }; //создание русского массива
-            string[] options2 = new[] { "Two wrongs don't make a right.", "The pen is mightier than the sword.", "When in Rome, do as the Romans.", "The squeaky wheel gets the grease.", "When the going gets tough, the tough get going.", "No man is an island.", "Fortune favors the bold." }; //создание английского массива
             int x = 0;
-            while (x<1)
+            while (x < 1)
             {
                 keyy = Console.ReadLine();
                 if (keyy == "rus")
@@ -65,7 +65,11 @@ namespace C_sharp
                     Console.WriteLine("Введите словарь: либо eng либо rus!"); // введите правильный ключ!
                 }
             }
-
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Давай замерим скорость твоей печати. \r\nНапиши текст, который будет показан ниже. \r\nВыбери словарь (eng/rus):");
+            vibor();
             do
             {
                 Random rand = new Random(); //метод рандома
